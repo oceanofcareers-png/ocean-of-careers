@@ -122,6 +122,23 @@ export type Widgets = {
   mobileStickyBar: { status: Status; bookLabel: string; whatsappLabel: string };
   exitIntentPopup: { status: Status; kicker: string; title: string; sub: string };
   statsCounterAnimation: { status: Status };
+  appointmentBooking: {
+    status: Status;
+    buttonLabel: string;
+    kicker: string;
+    title: string;
+    sub: string;
+    detailsStepLabel: string;
+    scheduleStepLabel: string;
+    messagePlaceholder: string;
+    nextLabel: string;
+    submitLabel: string;
+    /** Bookable days from today, including today. */
+    daysAhead: number;
+    /** `endHour` (0–23) hides a slot for today once that hour has passed. */
+    slots: { label: string; time: string; endHour: number }[];
+    successMessage: string;
+  };
 };
 
 export type SiteContent = {

@@ -1,8 +1,9 @@
 import { whatsappUrl } from "@/content/resolve";
 import type { SiteContent } from "@/content/types";
+import AppointmentBooking from "./AppointmentBooking";
 import LeadForm from "./LeadForm";
 import CountUp from "./CountUp";
-import { Bold, Highlight, SmartLink } from "./primitives";
+import { Bold, Gate, Highlight, SmartLink } from "./primitives";
 import { leadFormSettings } from "./settings";
 
 type P = { c: SiteContent };
@@ -34,6 +35,7 @@ export function TopBar({ c }: P) {
 
 export function Hero({ c }: P) {
   const h = c.sections.hero;
+  const booking = c.widgets.appointmentBooking;
   return (
     <section className="hero">
       <div className="hero-orb hero-orb1" />
@@ -51,7 +53,18 @@ export function Hero({ c }: P) {
           {h.motto && <p className="hero-tagline">&ldquo;{h.motto}&rdquo;</p>}
           <p className="hero-sub"><Bold text={h.intro} /></p>
           <div className="hero-btns">
-            {h.primaryCta.label && <SmartLink link={h.primaryCta} site={c.site} className="btn btn-gold btn-lg" />}
+            {booking.status !== "hidden" ? (
+              <Gate status={booking.status}>
+                <AppointmentBooking
+                  copy={booking}
+                  iAmOptions={c.leadForm.iAmOptions}
+                  brandName={c.site.brand.name}
+                  whatsappNumber={c.site.contact.whatsappRaw}
+                />
+              </Gate>
+            ) : (
+              h.primaryCta.label && <SmartLink link={h.primaryCta} site={c.site} className="btn btn-gold btn-lg" />
+            )}
             {h.secondaryCta.label && <SmartLink link={h.secondaryCta} site={c.site} className="btn btn-outline btn-lg" />}
           </div>
           <div className="hero-trust-row">

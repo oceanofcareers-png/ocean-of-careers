@@ -25,6 +25,10 @@ export const WIDGET_INFO: Record<WidgetKey, { name: string; desc: string }> = {
   mobileStickyBar: { name: "Mobile Bottom Bar", desc: "Book + WhatsApp bar on phones" },
   exitIntentPopup: { name: "Exit Popup", desc: "Lead form shown when a desktop visitor is about to leave" },
   statsCounterAnimation: { name: "Stats Count-up Animation", desc: "Numbers count up when scrolled into view" },
+  appointmentBooking: {
+    name: "Book an Appointment",
+    desc: "Hero button that opens a 2-step booking form and sends it on WhatsApp (when hidden, the hero shows its Primary button instead)",
+  },
 };
 
 export const SITE_INFO: Record<keyof SiteInfo, { name: string; desc: string }> = {
@@ -68,6 +72,16 @@ export const FIELD_LABELS: Record<string, string> = {
   assessmentUrl: "Assessment portal URL",
   iAmOptions: "“I am a…” options",
   concernOptions: "“Main concern” options",
+  buttonLabel: "Hero button text",
+  detailsStepLabel: "Step 1 name",
+  scheduleStepLabel: "Step 2 name",
+  messagePlaceholder: "Message box hint",
+  nextLabel: "Next button text",
+  submitLabel: "Book button text",
+  daysAhead: "Bookable days ahead (from today)",
+  slots: "Time slots",
+  time: "Time range",
+  endHour: "Ends at hour (0–23) — hidden for today after this",
 };
 
 export const SERVICE_THEMES = ["navy", "gold", "deep", "teal", "purple", "rust"];

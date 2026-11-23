@@ -325,6 +325,25 @@ export const defaultContent: SiteContent = {
       sub: "Zero cost · No spam · Instant WhatsApp confirmation",
     },
     statsCounterAnimation: { status: "active" },
+    appointmentBooking: {
+      status: "active",
+      buttonLabel: "📅 Book an Appointment",
+      kicker: "1-on-1 Session with {{founder.firstName}}",
+      title: "Book an Appointment",
+      sub: "Pick a day and a time that suits you — we'll confirm on WhatsApp.",
+      detailsStepLabel: "Your details",
+      scheduleStepLabel: "Date & time",
+      messagePlaceholder: "Briefly tell us what you'd like guidance on (optional)",
+      nextLabel: "Next →",
+      submitLabel: "📅 Book an Appointment",
+      daysAhead: 30,
+      slots: [
+        { label: "Morning", time: "9 AM – 12 PM", endHour: 12 },
+        { label: "Afternoon", time: "1 PM – 4 PM", endHour: 16 },
+        { label: "Evening", time: "5 PM – 8 PM", endHour: 20 },
+      ],
+      successMessage: "✓ We've opened WhatsApp with your appointment request — hit send and we'll confirm your slot shortly.",
+    },
   },
 
   leadForm: {
