@@ -43,7 +43,7 @@ export function formatAppointmentDate(date: string): string {
 
 export function appointmentWhatsappUrl(appt: Appointment, brandName: string, whatsappNumber: string): string {
   const message = [
-    `Hi ${brandName}, I'd like to book an appointment.`,
+    `Hi ${brandName}, I'd like to book a session.`,
     `Name: ${appt.name}`,
     `Mobile: ${appt.phone}`,
     `I am a: ${appt.iAm}`,

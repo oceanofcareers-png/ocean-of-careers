@@ -26,8 +26,8 @@ export const WIDGET_INFO: Record<WidgetKey, { name: string; desc: string }> = {
   exitIntentPopup: { name: "Exit Popup", desc: "Lead form shown when a desktop visitor is about to leave" },
   statsCounterAnimation: { name: "Stats Count-up Animation", desc: "Numbers count up when scrolled into view" },
   appointmentBooking: {
-    name: "Book an Appointment",
-    desc: "Hero button that opens a 2-step booking form and sends it on WhatsApp (when hidden, the hero shows its Primary button instead)",
+    name: "Book a Session",
+    desc: "Hero and founder-section buttons open a 2-step booking form that is sent on WhatsApp (when hidden, they become plain links again)",
   },
 };
 

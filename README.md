@@ -18,7 +18,7 @@ Locally, admin edits are saved to `frontend/.data/` (gitignored), so no cloud se
 - **Feature flags**: every section and widget is **Active** (shown), **Hidden** (removed from the page) or **Disabled** (shown greyed out and not clickable). Changes go live immediately.
 - **Content**: every text, list, button text/link and image on the homepage can be edited, then **Save changes**.
 - **Text tricks**: `*gold*` in titles, `**bold**` in the hero intro, `{{founder.name}}` / `{{stats.studentsGuided}}` etc. to reuse Site info values.
-- **Book an Appointment** (Widgets): the hero button opens a 2-step form (details → date & time slot) and sends the request on WhatsApp. Hidden = the hero shows its normal Primary button instead.
+- **Book a Session** (Widgets): the hero and founder-section buttons open a 2-step form (details → date & time slot) and send the request on WhatsApp. Hidden = they become plain links again.
 - **Links** accept `#section`, `/page`, `https://…`, `tel:`, `mailto:`, and `whatsapp:` (or `whatsapp:your message`).
 
 ## Production setup on Vercel (one-time)

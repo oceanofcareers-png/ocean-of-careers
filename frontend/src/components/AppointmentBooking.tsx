@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState, type FormEvent } from "react";
+import { createPortal } from "react-dom";
 import type { Widgets } from "@/content/types";
 import { appointmentWhatsappUrl, type Appointment } from "@/lib/leads";
 
@@ -8,6 +9,8 @@ type Copy = Widgets["appointmentBooking"];
 
 type Props = {
   copy: Copy;
+  /** Button text; defaults to the widget's hero button label. */
+  label?: string;
   iAmOptions: string[];
   brandName: string;
   whatsappNumber: string;
@@ -25,8 +28,8 @@ function isoDate(days = 0): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-/** Hero button that opens a two-step booking modal and hands the request off to WhatsApp. */
-export default function AppointmentBooking({ copy, iAmOptions, brandName, whatsappNumber, className }: Props) {
+/** Button that opens a two-step booking modal and hands the request off to WhatsApp. */
+export default function AppointmentBooking({ copy, label, iAmOptions, brandName, whatsappNumber, className }: Props) {
   const id = useId();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>(1);
@@ -92,10 +95,11 @@ export default function AppointmentBooking({ copy, iAmOptions, brandName, whatsa
   return (
     <>
       <button type="button" className={className ?? "btn btn-gold btn-lg"} onClick={openModal}>
-        {copy.buttonLabel}
+        {label || copy.buttonLabel}
       </button>
 
-      {open && (
+      {/* Portalled so the modal doesn't inherit styles from whichever section hosts the button. */}
+      {open && createPortal(
         <div className="popup-overlay" onClick={() => setOpen(false)}>
           <div
             className="popup-box appt-box"
@@ -208,7 +212,8 @@ export default function AppointmentBooking({ copy, iAmOptions, brandName, whatsa
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

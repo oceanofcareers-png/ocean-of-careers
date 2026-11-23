@@ -1,5 +1,6 @@
 import type { SiteContent } from "@/content/types";
 import AssessmentCta from "./AssessmentCta";
+import BookingButton from "./BookingButton";
 import { ContentImage, Highlight, SmartLink } from "./primitives";
 import { leadFormSettings, popupCopy } from "./settings";
 
@@ -165,7 +166,7 @@ export function About({ c }: P) {
               </div>
             ))}
           </div>
-          {s.bookCta.label && <SmartLink link={s.bookCta} site={c.site} className="btn btn-gold about-book-btn" />}
+          <BookingButton c={c} fallback={s.bookCta} className="btn btn-gold about-book-btn" />
         </aside>
         <div>
           {s.eyebrow && <span className="sh-eyebrow about-eyebrow">{s.eyebrow}</span>}
