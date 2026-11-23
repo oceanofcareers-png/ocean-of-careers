@@ -71,6 +71,10 @@ ul, ol { list-style: none; }
 /* ── Hero ── */
 .hero { background: var(--navy); position: relative; overflow: hidden; }
 .hero-inner { min-height: 620px; display: grid; grid-template-columns: 1fr 440px; align-items: center; padding-top: 70px; padding-bottom: 70px; gap: 48px; position: relative; z-index: 2; }
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8, 28, 58, .93) 0%, rgba(8, 28, 58, .78) 38%, rgba(8, 28, 58, .38) 70%, rgba(8, 28, 58, .2) 100%), linear-gradient(0deg, rgba(8, 28, 58, .75) 0%, transparent 40%); }
+.hero.has-image .hero-card { background: rgba(8, 28, 58, .72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0, 0, 0, .35); }
+.hero.has-image .hero-lines { opacity: .025; }
 .hero-orb { position: absolute; border-radius: 50%; pointer-events: none; }
 .hero-orb1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(200, 162, 74, .07) 0%, transparent 70%); right: -100px; top: -100px; }
 .hero-orb2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(26, 63, 122, .4) 0%, transparent 70%); left: 30%; bottom: -120px; }
@@ -286,6 +290,10 @@ ul, ol { list-style: none; }
 /* ── Final CTA ── */
 .final-cta { background: var(--navy); padding: 72px 0; text-align: center; position: relative; overflow: hidden; border-top: 3px solid var(--gold); }
 .final-cta::before { content: ""; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(circle, rgba(200, 162, 74, .08) 0%, transparent 70%); }
+.final-cta-bg { position: absolute; inset: 0; }
+.final-cta-bg::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(8, 28, 58, .62) 0%, rgba(8, 28, 58, .82) 70%), linear-gradient(0deg, rgba(8, 28, 58, .5), transparent 50%); }
+.final-cta.has-image { padding: 96px 0; }
+.final-cta.has-image p { color: #c8d6e4; }
 .final-cta h2 { font-family: var(--ff-head); font-size: 38px; font-weight: 800; color: var(--white); margin-bottom: 12px; position: relative; }
 .final-cta h2 span { color: var(--gold-light); }
 .final-cta p { font-size: 16px; color: #8aa4bc; max-width: 520px; margin: 0 auto 36px; line-height: 1.7; position: relative; }
@@ -361,9 +369,11 @@ ul, ol { list-style: none; }
 @keyframes popIn { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
 
 /* ── WhatsApp float + mobile sticky bar ── */
-.wa-float { position: fixed; right: 20px; bottom: 20px; z-index: 900; display: inline-flex; align-items: center; gap: 10px; background: var(--whatsapp); color: var(--white); padding: 12px 20px; border-radius: 32px; font-size: 14px; font-weight: 700; font-family: var(--ff-head); box-shadow: 0 4px 20px rgba(37, 211, 102, .35); }
-.wa-pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: pulse 1.6s ease-out infinite; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .7); } 100% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } }
+.wa-float { position: fixed; right: 20px; bottom: 20px; z-index: 900; display: inline-flex; align-items: center; height: 58px; min-width: 58px; background: var(--whatsapp); color: var(--white); border-radius: 32px; font-size: 14px; font-weight: 700; font-family: var(--ff-head); box-shadow: 0 4px 20px rgba(37, 211, 102, .35); transition: box-shadow .2s ease, transform .2s ease; }
+.wa-float .wa-icon { flex-shrink: 0; width: 58px; height: 30px; }
+.wa-label { max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; transition: max-width .3s ease, opacity .2s ease, padding .3s ease; }
+.wa-float:hover .wa-label, .wa-float:focus-visible .wa-label { max-width: 200px; opacity: 1; padding-right: 22px; }
+.wa-float:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37, 211, 102, .45); }
 .mobile-sticky { display: none; }
 
 /* ── Responsive ── */
@@ -378,6 +388,8 @@ ul, ol { list-style: none; }
 }
 
 @media (max-width: 960px) {
+  .hero-bg::after { background: linear-gradient(180deg, rgba(8, 28, 58, .62) 0%, rgba(8, 28, 58, .85) 45%, var(--navy) 72%); }
+  .hero-bg img { object-position: center top !important; height: 70% !important; }
   .nav-menu { display: none; }
   .nav-actions-mobile { display: flex; }
   .nav-drawer { display: block; background: var(--navy); border-top: 1px solid rgba(200, 162, 74, .2); padding: 12px var(--gutter) 20px; }

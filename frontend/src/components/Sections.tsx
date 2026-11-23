@@ -1,6 +1,8 @@
 import type { SiteContent } from "@/content/types";
 import AssessmentCta from "./AssessmentCta";
 import BookingButton from "./BookingButton";
+import SectionBackground from "./SectionBackground";
+import WhatsAppIcon, { withoutChatEmoji } from "./WhatsAppIcon";
 import { ContentImage, Highlight, SmartLink } from "./primitives";
 import { leadFormSettings, popupCopy } from "./settings";
 
@@ -328,13 +330,16 @@ export function Faq({ c }: P) {
 export function FinalCta({ c }: P) {
   const s = c.sections.finalCta;
   return (
-    <section className="final-cta" id="booking">
+    <section className={s.image ? "final-cta has-image" : "final-cta"} id="booking">
+      {s.image && <SectionBackground src={s.image} className="final-cta-bg" position="center 35%" />}
       <h2><Highlight text={s.title} className="" /></h2>
       <p>{s.desc}</p>
       <div className="final-cta-btns">
         {s.primaryCta.label && <SmartLink link={s.primaryCta} site={c.site} className="btn btn-gold btn-lg" />}
         {s.whatsappLabel && (
-          <SmartLink href="whatsapp:" site={c.site} className="btn btn-whatsapp btn-lg">{s.whatsappLabel}</SmartLink>
+          <SmartLink href="whatsapp:" site={c.site} className="btn btn-whatsapp btn-lg">
+            <WhatsAppIcon size={20} /> {withoutChatEmoji(s.whatsappLabel)}
+          </SmartLink>
         )}
         {s.secondaryCta.label && <SmartLink link={s.secondaryCta} site={c.site} className="btn btn-outline btn-lg" />}
       </div>

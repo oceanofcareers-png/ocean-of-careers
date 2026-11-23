@@ -66,6 +66,8 @@ export type Sections = {
     formSub: string;
     formSubmitLabel: string;
     formPrivacy: string;
+    /** Background banner photo behind the hero (covered by a navy tint so text stays readable). */
+    image: string | null;
   }>;
   credentials: Section<{ items: IconItem[] }>;
   stats: Section<{ items: { value: string; label: string }[] }>;
@@ -113,7 +115,15 @@ export type Sections = {
     }
   >;
   faq: Section<Heading & { items: { q: string; a: string }[] }>;
-  finalCta: Section<{ title: string; desc: string; primaryCta: Link; whatsappLabel: string; secondaryCta: Link }>;
+  finalCta: Section<{
+    title: string;
+    desc: string;
+    primaryCta: Link;
+    whatsappLabel: string;
+    secondaryCta: Link;
+    /** Background photo behind the banner (tinted navy). */
+    image: string | null;
+  }>;
   footer: { description: string; columns: { title: string; links: Link[] }[]; legalLinks: Link[]; copyright: string };
 };
 

@@ -1,10 +1,12 @@
 import type { SiteContent } from "@/content/types";
 import { SmartLink } from "./primitives";
+import WhatsAppIcon, { withoutChatEmoji } from "./WhatsAppIcon";
 
 export function WhatsAppFloat({ c }: { c: SiteContent }) {
   return (
     <SmartLink href="whatsapp:" site={c.site} className="wa-float">
-      <span className="wa-pulse" /> {c.widgets.whatsappFloat.label}
+      <WhatsAppIcon size={30} className="wa-icon" />
+      <span className="wa-label">{withoutChatEmoji(c.widgets.whatsappFloat.label)}</span>
     </SmartLink>
   );
 }
@@ -15,7 +17,9 @@ export function MobileStickyBar({ c }: { c: SiteContent }) {
   return (
     <div className="mobile-sticky">
       <a href="#book" className="btn btn-gold">{w.bookLabel}</a>
-      <SmartLink href="whatsapp:" site={c.site} className="btn btn-whatsapp">{w.whatsappLabel}</SmartLink>
+      <SmartLink href="whatsapp:" site={c.site} className="btn btn-whatsapp">
+        <WhatsAppIcon size={18} /> {withoutChatEmoji(w.whatsappLabel)}
+      </SmartLink>
     </div>
   );
 }

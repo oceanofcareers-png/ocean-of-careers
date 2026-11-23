@@ -1,17 +1,19 @@
 import type { SiteContent } from "@/content/types";
+import type { ReactNode } from "react";
 import { SmartLink } from "./primitives";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 export default function Footer({ c }: { c: SiteContent }) {
   const { site } = c;
   const { brand, founder, contact, location, stats, social } = site;
   const f = c.sections.footer;
 
-  const socials = [
+  const socials: { label: ReactNode; name: string; href: string }[] = [
     { label: "in", name: "LinkedIn", href: social.linkedinUrl },
     { label: "IG", name: "Instagram", href: social.instagramUrl },
     { label: "YT", name: "YouTube", href: social.youtubeUrl },
     { label: "FB", name: "Facebook", href: social.facebookUrl },
-    { label: "WA", name: "WhatsApp", href: "whatsapp:" },
+    { label: <WhatsAppIcon size={16} />, name: "WhatsApp", href: "whatsapp:" },
   ].filter((s) => s.href);
 
   return (

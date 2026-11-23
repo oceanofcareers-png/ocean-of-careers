@@ -41,6 +41,8 @@ export const defaultContent: SiteContent = {
       formSub: "2 mins to fill · 100% free · No spam ever",
       formSubmitLabel: "Get My Free Guidance Call →",
       formPrivacy: "🔒 100% Confidential · No obligations",
+      // Photo: Baim Hanif on Unsplash (Unsplash License) — https://unsplash.com/photos/pYWuOMhtc6k
+      image: "/images/hero-caps-dusk.webp",
     },
 
     credentials: {
@@ -281,8 +283,10 @@ export const defaultContent: SiteContent = {
       title: "Your Future Deserves the *Right Guidance.*",
       desc: "Helping students, graduates and professionals make confident career decisions — with clarity, structure and expert support.",
       primaryCta: book("📅 Book Free Guidance Call"),
-      whatsappLabel: "💬 WhatsApp Us Now",
+      whatsappLabel: "WhatsApp Us Now",
       secondaryCta: { label: "✈ Study Abroad Enquiry", href: "whatsapp:Hi {{founder.firstName}}, I have a study abroad enquiry." },
+      // Photo: JOHN TOWNER on Unsplash (Unsplash License) — https://unsplash.com/photos/CakC6u4d95g
+      image: "/images/cta-golden-sunrise.webp",
     },
 
     footer: {
@@ -316,8 +320,8 @@ export const defaultContent: SiteContent = {
   },
 
   widgets: {
-    whatsappFloat: { status: "active", label: "💬 Chat on WhatsApp" },
-    mobileStickyBar: { status: "active", bookLabel: "📅 Book Free Call", whatsappLabel: "💬 WhatsApp" },
+    whatsappFloat: { status: "active", label: "Chat on WhatsApp" },
+    mobileStickyBar: { status: "active", bookLabel: "📅 Book Free Call", whatsappLabel: "WhatsApp" },
     exitIntentPopup: {
       status: "active",
       kicker: "FREE Career Guidance",

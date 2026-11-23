@@ -2,6 +2,7 @@ import { whatsappUrl } from "@/content/resolve";
 import type { SiteContent } from "@/content/types";
 import BookingButton from "./BookingButton";
 import LeadForm from "./LeadForm";
+import SectionBackground from "./SectionBackground";
 import CountUp from "./CountUp";
 import { Bold, Highlight, SmartLink } from "./primitives";
 import { leadFormSettings } from "./settings";
@@ -36,7 +37,8 @@ export function TopBar({ c }: P) {
 export function Hero({ c }: P) {
   const h = c.sections.hero;
   return (
-    <section className="hero">
+    <section className={h.image ? "hero has-image" : "hero"}>
+      {h.image && <SectionBackground src={h.image} className="hero-bg" priority position="center 40%" />}
       <div className="hero-orb hero-orb1" />
       <div className="hero-orb hero-orb2" />
       <div className="hero-lines" />
