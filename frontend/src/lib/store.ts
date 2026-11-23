@@ -58,15 +58,26 @@ export const IMAGE_TYPES: Record<string, string> = {
   "image/avif": "avif",
 };
 
-/** Saves an image and returns its public URL. */
+/**
+ * Saves an image and returns the URL to use on the site.
+ * Public Blob stores return their CDN URL directly; private stores (which reject public
+ * uploads) are served through `/uploads/<name>`, which reads the blob server-side.
+ */
 export async function saveImage(file: File): Promise<string> {
   const ext = IMAGE_TYPES[file.type];
   if (!ext) throw new Error("Unsupported image type");
   const name = `${randomUUID()}.${ext}`;
 
   if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const blob = await put(`uploads/${name}`, file, { access: "public", contentType: file.type });
-    return blob.url;
+    const options = { contentType: file.type, addRandomSuffix: false };
+    try {
+      const blob = await put(`uploads/${name}`, file, { ...options, access: "public" });
+      return blob.url;
+    } catch (error) {
+      if (!(error instanceof Error && /private/i.test(error.message))) throw error;
+      await put(`uploads/${name}`, file, { ...options, access: "private" });
+      return `/uploads/${name}`;
+    }
   }
   assertWritableLocally();
   await mkdir(LOCAL_UPLOAD_DIR, { recursive: true });
