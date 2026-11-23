@@ -1,28 +1,39 @@
-import { siteConfig, whatsappLink } from "@/config";
+import { whatsappUrl } from "@/content/resolve";
+import type { SiteContent } from "@/content/types";
 import LeadForm from "./LeadForm";
 import CountUp from "./CountUp";
+import { Bold, Highlight, SmartLink } from "./primitives";
+import { leadFormSettings } from "./settings";
 
-const { brand, founder, contact, location, stats } = siteConfig;
+type P = { c: SiteContent };
 
-export function TopBar() {
+export function TopBar({ c }: P) {
+  const { site } = c;
+  const { contact, location } = site;
   return (
     <div className="topbar">
       <div className="container topbar-inner">
         <div className="topbar-left">
-          <div className="topbar-item">📞 <b>{contact.phoneDisplay}</b></div>
-          <a className="topbar-item" href={whatsappLink()} target="_blank" rel="noopener noreferrer">
+          <a className="topbar-item" href={`tel:+${contact.phoneRaw}`}>📞 <b>{contact.phoneDisplay}</b></a>
+          <a
+            className="topbar-item"
+            href={whatsappUrl(contact.whatsappRaw, contact.whatsappDefaultMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             💬 <b>WhatsApp: {contact.phoneDisplay}</b>
           </a>
           <a className="topbar-item" href={`mailto:${contact.email}`}>✉ <b>{contact.email}</b></a>
           <div className="topbar-item">📍 <b>{location.short}</b> · Online Across India</div>
         </div>
-        <a href="#book" className="btn btn-gold topbar-cta">🎁 Book a Free 15-Min Guidance Call</a>
+        <SmartLink link={c.sections.topBar.cta} site={site} className="btn btn-gold topbar-cta" />
       </div>
     </div>
   );
 }
 
-export function Hero() {
+export function Hero({ c }: P) {
+  const h = c.sections.hero;
   return (
     <section className="hero">
       <div className="hero-orb hero-orb1" />
@@ -30,43 +41,35 @@ export function Hero() {
       <div className="hero-lines" />
       <div className="container hero-inner">
         <div>
-          <div className="hero-eyebrow">
-            <span className="hero-eyebrow-dot" />
-            Personalised Guidance for Students · Graduates · Professionals
-          </div>
-          <h1 className="hero-h1">
-            Discover the Career <span className="gold">Your Child Was Born For.</span>
-          </h1>
-          <p className="hero-tagline">&ldquo;{brand.motto}&rdquo;</p>
-          <p className="hero-sub">
-            Expert career counselling, psychometric assessments &amp; global education guidance by{" "}
-            <b>{founder.name}</b> — a Global Career Counsellor certified by UCLA Extension (USA), guiding students,
-            graduates and professionals from {location.city} and online across India.
-          </p>
+          {h.eyebrow && (
+            <div className="hero-eyebrow">
+              <span className="hero-eyebrow-dot" />
+              {h.eyebrow}
+            </div>
+          )}
+          <h1 className="hero-h1"><Highlight text={h.title} /></h1>
+          {h.motto && <p className="hero-tagline">&ldquo;{h.motto}&rdquo;</p>}
+          <p className="hero-sub"><Bold text={h.intro} /></p>
           <div className="hero-btns">
-            <a href="#book" className="btn btn-gold btn-lg">📅 Book Free Guidance Call</a>
-            {siteConfig.features.studyAbroad && (
-              <a href="#study-abroad" className="btn btn-outline btn-lg">✈ Explore Study Abroad →</a>
-            )}
+            {h.primaryCta.label && <SmartLink link={h.primaryCta} site={c.site} className="btn btn-gold btn-lg" />}
+            {h.secondaryCta.label && <SmartLink link={h.secondaryCta} site={c.site} className="btn btn-outline btn-lg" />}
           </div>
           <div className="hero-trust-row">
-            <div className="hero-trust-item"><span className="hero-tick">✓</span> {stats.studentsGuided}+ Students Guided</div>
-            <div className="hero-trust-item"><span className="hero-tick">✓</span> {stats.googleRating.toFixed(1)} ★ · {stats.googleReviews} Google Reviews</div>
-            <div className="hero-trust-item"><span className="hero-tick">✓</span> Online Across India</div>
-            {siteConfig.features.studyAbroad && (
-              <div className="hero-trust-item"><span className="hero-tick">✓</span> Study Abroad: USA · UK · Germany · Australia</div>
-            )}
+            {h.trustItems.map((t, i) => (
+              <div key={i} className="hero-trust-item"><span className="hero-tick">✓</span> {t}</div>
+            ))}
           </div>
         </div>
 
         <div className="hero-card" id="book">
-          <div className="hero-card-head">🎯 Get Your Free Career Clarity Call</div>
-          <div className="hero-card-sub">2 mins to fill · 100% free · No spam ever</div>
+          <div className="hero-card-head">{h.formTitle}</div>
+          <div className="hero-card-sub">{h.formSub}</div>
           <LeadForm
             variant="dark"
             source="hero"
-            submitLabel="Get My Free Guidance Call →"
-            privacyNote="🔒 100% Confidential · No obligations"
+            submitLabel={h.formSubmitLabel}
+            privacyNote={h.formPrivacy}
+            settings={leadFormSettings(c)}
           />
         </div>
       </div>
@@ -74,17 +77,16 @@ export function Hero() {
   );
 }
 
-export function CredentialsBar() {
-  const items = [...founder.credentials, { icon: "📍", title: "Serving Students Across", detail: location.serviceArea }];
+export function CredentialsBar({ c }: P) {
   return (
     <div className="cred-bar">
       <div className="container cred-bar-inner">
-        {items.map((c, i) => (
-          <div key={c.title} style={{ display: "contents" }}>
+        {c.sections.credentials.items.map((item, i) => (
+          <div key={i} style={{ display: "contents" }}>
             {i > 0 && <div className="cred-divider" />}
             <div className="cred-item">
-              <div className="cred-icon">{c.icon}</div>
-              <div className="cred-text"><b>{c.title}</b>{c.detail}</div>
+              <div className="cred-icon">{item.icon}</div>
+              <div className="cred-text"><b>{item.title}</b>{item.detail}</div>
             </div>
           </div>
         ))}
@@ -93,21 +95,16 @@ export function CredentialsBar() {
   );
 }
 
-export function StatsBar() {
-  const items = [
-    { node: <CountUp value={stats.studentsGuided} suffix="+" />, label: "Students Guided" },
-    { node: <CountUp value={stats.yearsExperience} suffix="+" />, label: "Years Experience" },
-    { node: <CountUp value={stats.googleRating} decimals={1} suffix=" ★" />, label: `Google Rating · ${stats.googleReviews} Reviews` },
-    { node: <CountUp value={stats.statesServed} />, label: "States Served" },
-  ];
+export function StatsBar({ c }: P) {
+  const animate = c.widgets.statsCounterAnimation.status === "active";
   return (
     <div className="stats-bar">
       <div className="container stats-bar-inner">
-        {items.map((s, i) => (
-          <div key={s.label} style={{ display: "contents" }}>
+        {c.sections.stats.items.map((s, i) => (
+          <div key={i} style={{ display: "contents" }}>
             {i > 0 && <div className="stat-div" />}
             <div className="stat-item">
-              <div className="stat-num">{s.node}</div>
+              <div className="stat-num"><CountUp text={s.value} animate={animate} /></div>
               <div className="stat-lbl">{s.label}</div>
             </div>
           </div>

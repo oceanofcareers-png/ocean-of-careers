@@ -1,11 +1,9 @@
-import Image from "next/image";
-import { siteConfig } from "@/config";
+import { ContentImage } from "./primitives";
 
-export default function Logo() {
-  const { logo, name } = siteConfig.brand;
+export default function Logo({ src, name }: { src: string | null; name: string }) {
   return (
-    <div className="nav-logo-box">
-      {logo ? <Image src={logo} alt={`${name} logo`} width={54} height={54} priority /> : <span aria-hidden>🌊</span>}
+    <div className="nav-logo-box" style={{ position: "relative" }}>
+      {src ? <ContentImage src={src} alt={`${name} logo`} sizes="54px" /> : <span aria-hidden>🌊</span>}
     </div>
   );
 }

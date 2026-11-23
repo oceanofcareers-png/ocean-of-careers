@@ -1,7 +1,4 @@
-import { siteConfig } from "@/config";
-import { faqs } from "@/content/home";
-
-const { brand, founder, contact, location, stats } = siteConfig;
+import type { SiteContent } from "@/content/types";
 
 function Script({ data }: { data: object }) {
   return (
@@ -12,12 +9,15 @@ function Script({ data }: { data: object }) {
   );
 }
 
-export default function JsonLd() {
+export default function JsonLd({ c }: { c: SiteContent }) {
+  const { brand, founder, contact, location, stats } = c.site;
+
   const business = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "ProfessionalService"],
     name: brand.name,
     url: brand.url,
+    ...(brand.logo ? { logo: brand.logo } : {}),
     telephone: `+${contact.phoneRaw}`,
     email: contact.email,
     address: {
@@ -27,7 +27,6 @@ export default function JsonLd() {
       addressRegion: location.region,
       addressCountry: location.country,
     },
-    openingHours: "Mo-Sa 09:00-19:00",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: stats.googleRating,
@@ -37,19 +36,21 @@ export default function JsonLd() {
       "@type": "Person",
       name: founder.name,
       jobTitle: founder.role,
-      hasCredential: founder.credentials.map((c) => `${c.title} — ${c.detail}`),
+      hasCredential: founder.credentials.map((cr) => `${cr.title} — ${cr.detail}`),
     },
   };
 
-  const faqPage = siteConfig.features.faq && {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
-    })),
-  };
+  const faq = c.sections.faq;
+  const faqPage = faq.status === "active" &&
+    faq.items.length > 0 && {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faq.items.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    };
 
   return (
     <>

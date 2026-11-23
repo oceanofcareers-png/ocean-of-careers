@@ -1,47 +1,27 @@
+import type { SiteInfo } from "@/content/types";
+
 /**
- * Site configuration — personal & business info.
+ * Default personal & business info.
  *
- * Every component reads from here, so changing a value updates it across the
- * whole site. `features` holds on/off switches for sections and widgets; these
- * will later be managed from a feature-flag admin UI.
+ * These are the starting values. Once anything is saved from /admin, the
+ * stored copy takes over, so edit live content in the admin, not here.
+ * New fields added here are merged into stored content automatically.
  */
-
-export type FeatureFlags = {
-  topBar: boolean;
-  audienceSection: boolean;
-  problemSection: boolean;
-  processSection: boolean;
-  servicesSection: boolean;
-  studyAbroad: boolean;
-  aboutSection: boolean;
-  assessments: boolean;
-  testimonials: boolean;
-  blog: boolean;
-  faq: boolean;
-  exitIntentPopup: boolean;
-  whatsappFloat: boolean;
-  mobileStickyBar: boolean;
-  statsCounterAnimation: boolean;
-};
-
-export const siteConfig = {
+export const siteConfig: SiteInfo = {
   brand: {
     name: "Ocean of Careers",
     tagline: "Career Counselling & Global Education",
     motto: "Today's guidance shapes tomorrow's identity.",
-    domain: "oceanofcareers.com",
     url: "https://oceanofcareers.com",
-    /** Path under /public, e.g. "/logo.png". Leave null to show a text placeholder. */
-    logo: null as string | null,
-    foundedYearForCopyright: 2026,
+    logo: null,
+    copyrightYear: 2026,
   },
 
   founder: {
     name: "Divya Joanna",
     firstName: "Divya",
     role: "Founder & Lead Career Counsellor",
-    /** Path under /public, e.g. "/divya.webp". Leave null to show a placeholder. */
-    photo: null as string | null,
+    photo: null,
     headlineCredential: "UCLA Extension (USA) Certified Global Career Counsellor",
     credentials: [
       { icon: "🎓", title: "Global Career Counsellor", detail: "UCLA Extension (USA)" },
@@ -54,7 +34,6 @@ export const siteConfig = {
 
   contact: {
     phoneDisplay: "+91 83285 50920",
-    /** E.164 digits without "+", used for tel: and wa.me links. */
     phoneRaw: "918328550920",
     whatsappRaw: "918328550920",
     whatsappDefaultMessage: "Hi Ocean of Careers, I'd like to book a free 15-minute guidance call.",
@@ -71,8 +50,7 @@ export const siteConfig = {
     region: "Telangana",
     country: "IN",
     serviceArea: "Telangana · AP · Tamil Nadu · Karnataka & All India Online",
-    /** Paste the Google Maps embed URL (the src of the iframe). Leave null for a placeholder. */
-    mapEmbedUrl: null as string | null,
+    mapEmbedUrl: "",
   },
 
   stats: {
@@ -84,42 +62,28 @@ export const siteConfig = {
   },
 
   social: {
-    linkedin: "",
-    instagram: "",
-    youtube: "",
-    facebook: "",
+    linkedinUrl: "",
+    instagramUrl: "",
+    youtubeUrl: "",
+    facebookUrl: "",
   },
 
   integrations: {
-    /** Edumilestones assessment URL — users are sent here after the assessment lead form. */
-    assessmentUrl: null as string | null,
+    assessmentUrl: "",
   },
 
-  features: {
-    topBar: true,
-    audienceSection: true,
-    problemSection: true,
-    processSection: true,
-    servicesSection: true,
-    studyAbroad: true,
-    aboutSection: true,
-    assessments: true,
-    testimonials: true,
-    blog: true,
-    faq: true,
-    exitIntentPopup: true,
-    whatsappFloat: true,
-    mobileStickyBar: true,
-    statsCounterAnimation: true,
-  } satisfies FeatureFlags as FeatureFlags,
+  seo: {
+    title: "{{brand.name}} | Best Career Counsellor in {{location.city}} — {{founder.name}}",
+    description:
+      "Career counselling, psychometric assessments & study abroad guidance in {{location.city}} and online across India by {{founder.name}}, {{founder.headlineCredential}}. Book a free 15-minute guidance call.",
+    keywords: [
+      "career counselling hyderabad",
+      "best career counsellor hyderabad",
+      "career guidance hyderabad",
+      "psychometric test hyderabad",
+      "online career counselling india",
+      "study abroad guidance hyderabad",
+    ],
+    ogImage: null,
+  },
 };
-
-export type SiteConfig = typeof siteConfig;
-
-export function whatsappLink(message: string = siteConfig.contact.whatsappDefaultMessage) {
-  return `https://wa.me/${siteConfig.contact.whatsappRaw}?text=${encodeURIComponent(message)}`;
-}
-
-export function telLink() {
-  return `tel:+${siteConfig.contact.phoneRaw}`;
-}

@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import LeadPopup from "./LeadPopup";
+import LeadPopup, { type PopupCopy } from "./LeadPopup";
+import type { LeadFormSettings } from "./LeadForm";
 
 const STORAGE_KEY = "ooc-exit-popup-shown";
 
 /** Desktop-only exit-intent popup, shown at most once per session. */
-export default function ExitIntentPopup() {
+export default function ExitIntentPopup({ copy, settings }: { copy: PopupCopy; settings: LeadFormSettings }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -30,5 +31,5 @@ export default function ExitIntentPopup() {
 
   const close = useCallback(() => setOpen(false), []);
 
-  return <LeadPopup open={open} onClose={close} source="exit-popup" />;
+  return <LeadPopup open={open} onClose={close} source="exit-popup" copy={copy} settings={settings} />;
 }

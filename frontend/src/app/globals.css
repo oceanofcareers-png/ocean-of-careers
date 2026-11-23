@@ -419,3 +419,7 @@ ul, ol { list-style: none; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ── Feature-flag states ── */
+.is-disabled { opacity: .45; filter: grayscale(.85); pointer-events: none; user-select: none; }
+.section-navy + .testimonials { padding-top: 0; }

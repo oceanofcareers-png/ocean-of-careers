@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { siteConfig, telLink } from "@/config";
-import { navLinks } from "@/content/home";
+import type { Sections, SiteInfo } from "@/content/types";
+import { SmartLink } from "./primitives";
 import Logo from "./Logo";
 
-export default function Navbar() {
+export default function Navbar({ site, nav }: { site: SiteInfo; nav: Sections["navbar"] }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -17,28 +17,29 @@ export default function Navbar() {
   }, []);
 
   const close = () => setMenuOpen(false);
-  const links = navLinks.filter((l) => !l.flag || siteConfig.features[l.flag]);
 
   return (
     <nav className={`navbar${scrolled ? " scrolled" : ""}`} aria-label="Main">
       <div className="container navbar-inner">
         <a href="#top" className="nav-brand" onClick={close}>
-          <Logo />
+          <Logo src={site.brand.logo} name={site.brand.name} />
           <div>
-            <div className="nav-brand-name">{siteConfig.brand.name}</div>
-            <div className="nav-brand-sub">{siteConfig.brand.tagline}</div>
+            <div className="nav-brand-name">{site.brand.name}</div>
+            <div className="nav-brand-sub">{site.brand.tagline}</div>
           </div>
         </a>
 
         <div className="nav-menu">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className="nav-item">{l.label}</a>
+          {nav.links.map((l, i) => (
+            <SmartLink key={i} link={l} site={site} className="nav-item" />
           ))}
-          <a href="#book" className="btn btn-gold nav-book">📅 Book Free Call</a>
+          <SmartLink link={nav.bookCta} site={site} className="btn btn-gold nav-book" />
         </div>
 
         <div className="nav-actions-mobile">
-          <a href={telLink()} className="nav-icon-btn" aria-label={`Call ${siteConfig.contact.phoneDisplay}`}>📞</a>
+          <a href={`tel:+${site.contact.phoneRaw}`} className="nav-icon-btn" aria-label={`Call ${site.contact.phoneDisplay}`}>
+            📞
+          </a>
           <button
             className="nav-icon-btn"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -52,10 +53,10 @@ export default function Navbar() {
 
       {menuOpen && (
         <div className="nav-drawer">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={close}>{l.label}</a>
+          {nav.links.map((l, i) => (
+            <SmartLink key={i} link={l} site={site} onClick={close} />
           ))}
-          <a href="#book" className="btn btn-gold btn-md" onClick={close}>📅 Book Free Call</a>
+          <SmartLink link={nav.bookCta} site={site} className="btn btn-gold btn-md" onClick={close} />
         </div>
       )}
     </nav>

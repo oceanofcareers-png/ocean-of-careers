@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
-import { siteConfig } from "@/config";
+import { getPublishedContent } from "@/lib/content";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -14,33 +14,27 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const { brand, founder, location } = siteConfig;
-const title = `${brand.name} | Best Career Counsellor in ${location.city} — ${founder.name}`;
-const description = `Career counselling, psychometric assessments & study abroad guidance in ${location.city} and online across India by ${founder.name}, ${founder.headlineCredential}. Book a free 15-minute guidance call.`;
-
-export const metadata: Metadata = {
-  metadataBase: new URL(brand.url),
-  title,
-  description,
-  keywords: [
-    "career counselling hyderabad",
-    "best career counsellor hyderabad",
-    "career guidance hyderabad",
-    "psychometric test hyderabad",
-    "online career counselling india",
-    "study abroad guidance hyderabad",
-  ],
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    url: brand.url,
-    siteName: brand.name,
-    title,
-    description,
-    locale: "en_IN",
-  },
-  twitter: { card: "summary_large_image", title, description },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { brand, seo } = (await getPublishedContent()).site;
+  const images = seo.ogImage ? [seo.ogImage] : undefined;
+  return {
+    metadataBase: new URL(brand.url),
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      url: brand.url,
+      siteName: brand.name,
+      title: seo.title,
+      description: seo.description,
+      locale: "en_IN",
+      images,
+    },
+    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#081C3A",

@@ -1,27 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
-import { siteConfig, whatsappLink } from "@/config";
-import LeadForm from "./LeadForm";
+import { whatsappUrl } from "@/content/resolve";
+import LeadForm, { type LeadFormSettings } from "./LeadForm";
 import type { Lead } from "@/lib/leads";
+
+export type PopupCopy = { kicker: string; title: string; sub: string; founderName: string; whatsappMessage: string };
 
 type Props = {
   open: boolean;
   onClose: () => void;
   source: Lead["source"];
-  kicker?: string;
-  title?: string;
+  copy: PopupCopy;
+  settings: LeadFormSettings;
   onSubmitted?: () => void;
 };
 
-export default function LeadPopup({
-  open,
-  onClose,
-  source,
-  kicker = "FREE Career Guidance",
-  title = "Get Your Free 15-Min Career Clarity Call",
-  onSubmitted,
-}: Props) {
+export default function LeadPopup({ open, onClose, source, copy, settings, onSubmitted }: Props) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -45,17 +40,23 @@ export default function LeadPopup({
         onClick={(e) => e.stopPropagation()}
       >
         <button className="popup-close" onClick={onClose} aria-label="Close">×</button>
-        <div className="popup-kicker">{kicker}</div>
-        <h2 className="popup-title" id="popup-title">{title}</h2>
-        <p className="popup-sub">Zero cost · No spam · Instant WhatsApp confirmation</p>
+        <div className="popup-kicker">{copy.kicker}</div>
+        <h2 className="popup-title" id="popup-title">{copy.title}</h2>
+        <p className="popup-sub">{copy.sub}</p>
         <LeadForm
           variant="light"
           source={source}
           submitLabel="Get My Free Call →"
-          privacyNote={`🔒 100% Confidential · Guided by ${siteConfig.founder.name} personally`}
+          privacyNote={`🔒 100% Confidential · Guided by ${copy.founderName} personally`}
+          settings={settings}
           onSubmitted={onSubmitted}
         />
-        <a className="btn btn-whatsapp popup-wa" href={whatsappLink()} target="_blank" rel="noopener noreferrer">
+        <a
+          className="btn btn-whatsapp popup-wa"
+          href={whatsappUrl(settings.whatsappNumber, copy.whatsappMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           💬 Or WhatsApp Us Directly
         </a>
       </div>

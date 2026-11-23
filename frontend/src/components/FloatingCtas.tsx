@@ -1,19 +1,21 @@
-import { whatsappLink } from "@/config";
+import type { SiteContent } from "@/content/types";
+import { SmartLink } from "./primitives";
 
-export function WhatsAppFloat() {
+export function WhatsAppFloat({ c }: { c: SiteContent }) {
   return (
-    <a className="wa-float" href={whatsappLink()} target="_blank" rel="noopener noreferrer">
-      <span className="wa-pulse" /> 💬 Chat on WhatsApp
-    </a>
+    <SmartLink href="whatsapp:" site={c.site} className="wa-float">
+      <span className="wa-pulse" /> {c.widgets.whatsappFloat.label}
+    </SmartLink>
   );
 }
 
 /** Mobile-only bottom bar (replaces popups on mobile, per the wireframe). */
-export function MobileStickyBar() {
+export function MobileStickyBar({ c }: { c: SiteContent }) {
+  const w = c.widgets.mobileStickyBar;
   return (
     <div className="mobile-sticky">
-      <a href="#book" className="btn btn-gold">📅 Book Free Call</a>
-      <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp">💬 WhatsApp</a>
+      <a href="#book" className="btn btn-gold">{w.bookLabel}</a>
+      <SmartLink href="whatsapp:" site={c.site} className="btn btn-whatsapp">{w.whatsappLabel}</SmartLink>
     </div>
   );
 }
